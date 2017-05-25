@@ -53,6 +53,7 @@
     )
   )
 
+;; 第一次必须先初始化: (initialize-xunfei (*a :main)) 
 ;; (str-to-voice (*a :main) "Hi,瞧布施" (mSynListener))
 (defn str-to-voice
   [^Context context text mSynListener]
