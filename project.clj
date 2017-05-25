@@ -40,7 +40,7 @@
                          :enable-dynamic-compilation true
                          :aot :all
                          :build-type :release}}]}
-
+  
   :android {:sdk-path "/Users/clojure/Library/Android/sdk"
             :dex-opts ["-JXmx4096M" "--incremental"]
             :build-config {"ENC_ALGORITHM" "Blowfish"
@@ -50,4 +50,7 @@
             :aot-exclude-ns ["clojure.parallel" "clojure.core.reducers"
                              "cljs-tooling.complete" "cljs-tooling.info"
                              "cljs-tooling.util.analysis" "cljs-tooling.util.misc"
-                             "cider.nrepl" "cider-nrepl.plugin"]})
+                             "cider.nrepl" "cider-nrepl.plugin"]
+            :external-classes-paths ["lib/Msc.jar"]
+            :native-libraries-paths ["lib/"]
+            })

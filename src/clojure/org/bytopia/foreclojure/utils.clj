@@ -16,7 +16,15 @@
            android.support.v4.view.ViewCompat
            [android.support.v4.widget DrawerLayout DrawerLayout$DrawerListener]
            [android.support.v7.app AppCompatActivity ActionBarDrawerToggle]
-           java.util.HashMap))
+           java.util.HashMap
+           ;; 讯飞的jar包
+           [com.iflytek.cloud
+            ErrorCode
+            InitListener
+            SpeechConstant
+            SpeechError
+            SpeechSynthesizer
+            SynthesizerListener] ))
 
 (defn ellipsize [s max-length]
   (let [lng (count s)]
