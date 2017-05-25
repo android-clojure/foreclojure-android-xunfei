@@ -41,11 +41,12 @@
                          :aot :all
                          :build-type :release}}]}
 
-  :android {:dex-opts ["-JXmx4096M" "--incremental"]
+  :android {:sdk-path "/Users/clojure/Library/Android/sdk"
+            :dex-opts ["-JXmx4096M" "--incremental"]
             :build-config {"ENC_ALGORITHM" "Blowfish"
                            "ENC_KEY" #=(get-enc-key)}
             :manifest-options {:app-name "@string/app_name"}
-            :target-version "21"
+            :target-version "22"
             :aot-exclude-ns ["clojure.parallel" "clojure.core.reducers"
                              "cljs-tooling.complete" "cljs-tooling.info"
                              "cljs-tooling.util.analysis" "cljs-tooling.util.misc"
