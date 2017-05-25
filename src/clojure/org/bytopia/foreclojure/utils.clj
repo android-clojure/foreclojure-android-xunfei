@@ -8,8 +8,10 @@
             [neko.ui.mapping :refer [defelement]]
             [neko.ui.menu :as menu]
             [neko.ui.traits :as traits]
-            [neko.-utils :as u])
-  (:import android.app.Activity
+            [neko.-utils :as u]
+            [neko.debug :refer [*a]])
+  (:import android.content.Context
+           android.app.Activity
            android.view.View
            android.support.v4.widget.SwipeRefreshLayout$OnRefreshListener
            android.support.design.widget.Snackbar
@@ -19,12 +21,51 @@
            java.util.HashMap
            ;; 讯飞的jar包
            [com.iflytek.cloud
+            SpeechUtility
             ErrorCode
             InitListener
             SpeechConstant
             SpeechError
             SpeechSynthesizer
             SynthesizerListener] ))
+
+;; 讯飞语音模块 =========
+;; context => 当前页面所在位置: (*a :main)
+;;  => #object[org.bytopia.foreclojure.ProblemGridActivity 0x1cf5d25f "org.bytopia.foreclojure.ProblemGridActivity@1cf5d25f"]
+
+(def appid (str SpeechConstant/APPID "=59268e45"))
+
+;; (initialize-xunfei (*a :main))
+;; 初始化即创建语音配置对象，只有初始化后才可以使用MSC的各项服务。建议将初始化放在程序入口处（如Application、Activity的onCreate方法）
+(defn initialize-xunfei
+  [^Context context]
+  (SpeechUtility/createUtility context appid))
+
+(defn mSynListener
+  []
+  (proxy [SynthesizerListener] []
+    (onCompleted [_])
+    (onBufferProgress [^Integer percent  ^Integer beginPos  ^Integer endPos ^String info])
+    (onSpeakBegin [])
+    (onSpeakPaused [])
+    (onSpeakProgress [^Integer percent ^Integer beginPos ^Integer endPos])
+    (onSpeakResumed [])
+    )
+  )
+
+;; (str-to-voice (*a :main) "Hi,瞧布施" (mSynListener))
+(defn str-to-voice
+  [^Context context text mSynListener]
+  (let [mTts (SpeechSynthesizer/createSynthesizer  context nil)
+        _ (.setParameter mTts SpeechConstant/ENGINE_TYPE SpeechConstant/TYPE_CLOUD)
+        _ (.setParameter mTts SpeechConstant/ENGINE_MODE SpeechConstant/MODE_MSC)
+        _ (.setParameter mTts SpeechConstant/VOICE_NAME "xiaoyan")]
+    (.startSpeaking mTts text mSynListener)
+    )
+  )
+
+
+;; ===============
 
 (defn ellipsize [s max-length]
   (let [lng (count s)]
