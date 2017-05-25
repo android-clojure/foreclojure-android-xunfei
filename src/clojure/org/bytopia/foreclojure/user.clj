@@ -13,7 +13,7 @@
             [org.bytopia.foreclojure
              [db :as db]
              [api :as api]
-             [utils :refer [long-running-job]]])
+             [utils :refer [long-running-job initialize-xunfei str-to-voice mSynListener]]])
   (:import [android.app ProgressDialog Activity]
            android.content.res.Configuration
            android.text.Html
@@ -60,7 +60,11 @@
   (let [[user-et pwd-et] (find-views a ::user-et ::pwd-et)
         username (str (.getText ^EditText user-et))
         password (str (.getText ^EditText pwd-et))
-        progress (ProgressDialog/show a nil "Signing in..." true)]
+        progress (ProgressDialog/show a nil "Signing in..." true)
+        _ (initialize-xunfei a)]
+    (on-ui (toast (str "你已初始化讯飞! 开始读username:" username "...")) )
+    (str-to-voice a username (mSynListener))
+    ;;
     (neko.log/d "login-via-input()" "username" username "password" password)
     (future
       (try
