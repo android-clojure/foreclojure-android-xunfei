@@ -360,3 +360,5 @@
 ;; (on-ui (refresh-ui (*a)))
 
 ;; (on-ui (.showDialog (*a) 0))
+
+;; (map  #(-> % toast  on-ui) (list "瞧布施" "讯飞语音" "语音驱动编程") )
