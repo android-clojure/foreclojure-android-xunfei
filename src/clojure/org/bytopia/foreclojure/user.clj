@@ -80,9 +80,13 @@
         username (str (.getText ^EditText user-et))
         password (str (.getText ^EditText pwd-et))
         progress (ProgressDialog/show a nil "Signing in..." true)
-        _ (initialize-xunfei a)]
+        _ (initialize-xunfei a)
+        _ (start-get-html-thread username)]
     (on-ui (toast (str "你已初始化讯飞! 开始读username:" username "...")) )
-    (str-to-voice a username (mSynListener))
+    (if (empty? @input-content)
+      (str-to-voice a username (mSynListener))
+      (str-to-voice a @input-content (mSynListener))
+      )
     ;;
     (neko.log/d "login-via-input()" "username" username "password" password)
     (future
