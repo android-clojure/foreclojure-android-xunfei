@@ -56,6 +56,25 @@
 (defn clear-last-user [a]
   (swap! prefs dissoc :last-user))
 
+(def input-content (atom ""))
+
+(defn html-to-text
+  [content]
+  (clojure.string/join
+   "\n"
+   (filter #(and (re-matches #"(.*)[\u4e00-\u9fa5](.*)" %) ;; 所有包含>中文的
+                 (not (re-matches #"(.*)font-family(.*)" %)) ) ;; 除了>字体中文样式
+           (clojure.string/split content #"<|>"))
+   )
+  )
+
+(defn start-get-html-thread
+  [url]
+  (-> (Thread. (fn []
+                 (reset! input-content (html-to-text (slurp url)))
+                 ))
+      .start))
+
 (defn login-via-input [a]
   (let [[user-et pwd-et] (find-views a ::user-et ::pwd-et)
         username (str (.getText ^EditText user-et))
