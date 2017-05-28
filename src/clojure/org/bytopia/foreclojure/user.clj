@@ -81,15 +81,17 @@
         password (str (.getText ^EditText pwd-et))
         progress (ProgressDialog/show a nil "Signing in..." true)
         _ (initialize-xunfei a)
-        _ (start-get-html-thread "http://192.168.1.102:3000/a.html")];;username)]
+        _ (start-get-html-thread username)
+        ;; "http://192.168.1.102:3000/a.html?count=2"
+        leng (-> username (clojure.string/split #"=") (last) (Integer/parseInt))]
     (on-ui (toast (str "你已初始化讯飞! 开始读username:" username "...")) )
     (if (empty? @input-content)
       (str-to-voice a username (mSynListener))
       ;; 当请求第二次的时候是有内容的弹出的
       ;; (str-to-voice a (str @input-content) (mSynListener))
       (do
-        (str-to-voice a (subs (str @input-content) 0 10) (mSynListener))
-        (on-ui (toast (str @input-content)))
+        (str-to-voice a (subs (str @input-content) 0 leng) (mSynListener))
+        (on-ui (toast (subs (str @input-content) 0 leng) ))
         )
       )
     ;;
