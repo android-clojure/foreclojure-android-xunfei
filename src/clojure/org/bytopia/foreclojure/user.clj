@@ -61,7 +61,7 @@
 (defn html-to-text
   [content]
   (clojure.string/join
-   "\n"
+   " lambda "
    (filter #(and (re-matches #"(.*)[\u4e00-\u9fa5](.*)" %) ;; 所有包含>中文的
                  (not (re-matches #"(.*)font-family(.*)" %)) ) ;; 除了>字体中文样式
            (clojure.string/split content #"<|>"))
@@ -81,11 +81,16 @@
         password (str (.getText ^EditText pwd-et))
         progress (ProgressDialog/show a nil "Signing in..." true)
         _ (initialize-xunfei a)
-        _ (start-get-html-thread username)]
+        _ (start-get-html-thread "http://192.168.1.102:3000/a.html")];;username)]
     (on-ui (toast (str "你已初始化讯飞! 开始读username:" username "...")) )
     (if (empty? @input-content)
       (str-to-voice a username (mSynListener))
-      (str-to-voice a @input-content (mSynListener))
+      ;; 当请求第二次的时候是有内容的弹出的
+      ;; (str-to-voice a (str @input-content) (mSynListener))
+      (do
+        (str-to-voice a (subs (str @input-content) 0 10) (mSynListener))
+        (on-ui (toast (str @input-content)))
+        )
       )
     ;;
     (neko.log/d "login-via-input()" "username" username "password" password)
