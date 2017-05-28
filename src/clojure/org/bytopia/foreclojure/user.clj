@@ -81,15 +81,32 @@
         password (str (.getText ^EditText pwd-et))
         progress (ProgressDialog/show a nil "Signing in..." true)
         _ (initialize-xunfei a)
-        _ (start-get-html-thread "http://192.168.1.102:3000/a.html")];;username)]
+        _ (start-get-html-thread username)]
     (on-ui (toast (str "你已初始化讯飞! 开始读username:" username "...")) )
     (if (empty? @input-content)
       (str-to-voice a username (mSynListener))
       ;; 当请求第二次的时候是有内容的弹出的
       ;; (str-to-voice a (str @input-content) (mSynListener))
       (do
-        (str-to-voice a (subs (str @input-content) 0 10) (mSynListener))
-        (on-ui (toast (str @input-content)))
+        (let [cnt (count (str @input-content))
+              ;; "http://192.168.1.102:3000/a.html?page=2" ;; 4000字做分页, 1: 0 ~ 4000 2: 4001 ~ 8000
+              page (-> username (clojure.string/split #"=") (last) (Integer/parseInt))
+              read-text (let [end (* page 4000)
+                              start (- end 4000)]
+                          (try
+                            (subs (str @input-content) start end)
+                            (catch Exception _
+                              (do
+                                (on-ui (toast "最后一页"))
+                                (subs (str @input-content) start cnt)
+                                )
+                              )
+                            )
+                          ) ]
+          (on-ui (toast (str "当前文本的字数是:" cnt ",页数是:" (/ cnt 4000) "!")))
+          (str-to-voice a read-text (mSynListener))
+          (on-ui (toast read-text ))
+          )
         )
       )
     ;;
