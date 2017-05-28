@@ -93,7 +93,15 @@
               page (-> username (clojure.string/split #"=") (last) (Integer/parseInt))
               read-text (let [end (* page 4000)
                               start (- end 4000)]
-                          (subs (str @input-content) start end)
+                          (try
+                            (subs (str @input-content) start end)
+                            (catch Exception _
+                              (do
+                                (on-ui (toast "最后一页"))
+                                (subs (str @input-content) start cnt)
+                                )
+                              )
+                            )
                           ) ]
           (on-ui (toast (str "当前文本的字数是:" cnt ",页数是:" (/ cnt 4000) "!")))
           (str-to-voice a read-text (mSynListener))
