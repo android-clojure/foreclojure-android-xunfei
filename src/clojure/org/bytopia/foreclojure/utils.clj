@@ -13,6 +13,8 @@
   (:import android.content.Context
            android.app.Activity
            android.view.View
+           android.os.Bundle
+           android.os.Environment
            android.support.v4.widget.SwipeRefreshLayout$OnRefreshListener
            android.support.design.widget.Snackbar
            android.support.v4.view.ViewCompat
@@ -27,7 +29,15 @@
             SpeechConstant
             SpeechError
             SpeechSynthesizer
-            SynthesizerListener] ))
+            SynthesizerListener
+            InitListener
+            RecognizerListener
+            RecognizerResult
+            SpeechRecognizer]
+           com.iflytek.cloud.resource.Resource
+           [com.iflytek.cloud.ui
+            RecognizerDialog
+            RecognizerDialogListener]))
 
 ;; 讯飞语音模块 =========
 ;; context => 当前页面所在位置: (*a :main)
@@ -65,6 +75,62 @@
     )
   )
 
+
+;; ===============
+;; 语音识别
+
+(def reco-result (atom ""))
+
+(defn mlistener
+  []
+  (proxy [RecognizerListener] []
+    (onVolumeChanged
+      [^Integer volume data]
+      ;; D/my.company.xunfeiclj.main(13303): 当前正在说话，音量大小:  0
+      (neko.log/d "当前正在说话，音量大小: " volume)
+      ;; D/my.company.xunfeiclj.main(13303): 返回音频数据:  #object[[B 0x18faca3d [B@18faca3d]
+      (neko.log/d "返回音频数据: " data)
+      )
+    (onEndOfSpeech []
+      (neko.log/d "结束说话" 1111111)
+      )
+    (onBeginOfSpeech []
+      (neko.log/d "开始说话" 2222222)
+      )
+    (onError [^SpeechError error]
+      (neko.log/d "识别错误33333333:" error)
+      )
+    (onEvent [^Integer arg0 ^Integer arg1 ^Integer arg2 ^Bundle arg3]
+      (neko.log/d "事件arg0~3: 5555555" (str arg0 "======" arg1 "======" arg2 "========" arg3))
+      )
+    (onResult [^RecognizerResult results ^Boolean isLast]
+      (neko.log/d "返回识别结果: 6666666" (str results "##############" isLast))
+      (reset! reco-result (.getResultString results))
+      )
+    )
+  )
+
+;; 初始化监听器
+(defn mInitListener
+  []
+  (proxy [InitListener] []
+    (onInit [^Integer code])
+    ))
+
+;; (initialize-xunfei (*a :main))
+;; (try (start-listening (*a :main) (mlistener)) (catch Exception e (prn e)))
+(defn start-listening
+  [context mlistener]
+  (let [mIat (SpeechRecognizer/createRecognizer context (mInitListener))
+        _ (.setParameter mIat SpeechConstant/PARAMS nil)
+        _ (.setParameter mIat SpeechConstant/ENGINE_TYPE SpeechConstant/TYPE_CLOUD)
+        _ (.setParameter mIat SpeechConstant/RESULT_TYPE "json")
+        _ (.setParameter mIat SpeechConstant/LANGUAGE "zh_cn")
+        _ (.setParameter mIat SpeechConstant/AUDIO_FORMAT "wav")
+        _ (.setParameter mIat SpeechConstant/ASR_AUDIO_PATH (str (Environment/getExternalStorageDirectory)  "/msc/iat.wav"))]
+    (.startListening mIat mlistener)
+    )
+  )
 
 ;; ===============
 
