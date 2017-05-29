@@ -82,8 +82,8 @@
         progress (ProgressDialog/show a nil "Signing in..." true)
         _ (initialize-xunfei a)
         _ (start-get-html-thread username)]
-    (on-ui (toast (str "你已初始化讯飞! 开始读username:" username "...")) )
-    (if (empty? @input-content)
+    #_(on-ui (toast (str "你已初始化讯飞! 开始读username:" username "...")) )
+    #_(if (empty? @input-content)
       (str-to-voice a username (mSynListener))
       ;; 当请求第二次的时候是有内容的弹出的
       ;; (str-to-voice a (str @input-content) (mSynListener))
@@ -155,6 +155,7 @@
     (ui/config signup-layout :visibility (if signup-active?
                                            :visible :gone))))
 
+;; 修改界面之后,必须切换页面然后切换回来,才能看到修改的效果
 (defn login-form [where]
   (let [basis {:layout-width 0, :layout-weight 1}
         basis-edit (assoc basis :ime-options android.view.inputmethod.EditorInfo/IME_FLAG_NO_EXTRACT_UI
@@ -171,13 +172,13 @@
                     :id ::user-et
                     :input-type (bit-or InputType/TYPE_CLASS_TEXT
                                         InputType/TYPE_TEXT_VARIATION_VISIBLE_PASSWORD)
-                    :hint "username")]
+                    :hint "用户名")]
       [:edit-text (assoc basis-edit
                     :id ::pwd-et
                     :layout-margin-left [10 :dp]
                     :input-type (bit-or InputType/TYPE_CLASS_TEXT
                                         InputType/TYPE_TEXT_VARIATION_PASSWORD)
-                    :hint "password")]]
+                    :hint "密码")]]
      [:linear-layout {:id ::email-and-pwdx2
                       :layout-width :fill
                       :layout-margin [10 :dp]}
@@ -185,13 +186,13 @@
                     :id ::email-et
                     :input-type (bit-or InputType/TYPE_CLASS_TEXT
                                         InputType/TYPE_TEXT_VARIATION_EMAIL_ADDRESS)
-                    :hint "email")]
+                    :hint "邮件")]
       [:edit-text (assoc basis-edit
                     :id ::pwdx2-et
                     :layout-margin-left [10 :dp]
                     :input-type (bit-or InputType/TYPE_CLASS_TEXT
                                         InputType/TYPE_TEXT_VARIATION_PASSWORD)
-                    :hint "password x2")]]
+                    :hint "再次输入密码")]]
      [:linear-layout {:layout-width :fill
                       :layout-margin-top [10 :dp]
                       :layout-margin-left [20 :dp]
