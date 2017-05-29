@@ -81,7 +81,8 @@
         password (str (.getText ^EditText pwd-et))
         progress (ProgressDialog/show a nil "Signing in..." true)
         _ (initialize-xunfei a)
-        _ (start-get-html-thread username)]
+        ;;_ (start-get-html-thread username)
+        ]
     #_(on-ui (toast (str "你已初始化讯飞! 开始读username:" username "...")) )
     #_(if (empty? @input-content)
       (str-to-voice a username (mSynListener))
