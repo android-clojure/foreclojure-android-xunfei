@@ -155,8 +155,17 @@
                               "Register" "No account?"))
     (ui/config signup-layout :visibility (if signup-active?
                                            :visible :gone))))
+(defn test-refresh-ui
+  "手动渲染当前页的UI"
+  []
+  (let [this (*a)
+        landscape? (= (ui/get-screen-orientation) :landscape)]
+    (on-ui
+     (set-content-view! this (activity-ui landscape?))
+     (refresh-ui this))))
 
-;; 修改界面之后,必须切换页面然后切换回来,才能看到修改的效果
+;; 修改界面之后,必须切换页面然后切换回来,才能看到修改的效果 => 手动渲染ui =>
+;; (test-refresh-ui)
 (defn login-form [where]
   (let [basis {:layout-width 0, :layout-weight 1}
         basis-edit (assoc basis :ime-options android.view.inputmethod.EditorInfo/IME_FLAG_NO_EXTRACT_UI
@@ -173,7 +182,7 @@
                     :id ::user-et
                     :input-type (bit-or InputType/TYPE_CLASS_TEXT
                                         InputType/TYPE_TEXT_VARIATION_VISIBLE_PASSWORD)
-                    :hint "用户名")]
+                    :hint "账号")]
       [:edit-text (assoc basis-edit
                     :id ::pwd-et
                     :layout-margin-left [10 :dp]
@@ -193,7 +202,7 @@
                     :layout-margin-left [10 :dp]
                     :input-type (bit-or InputType/TYPE_CLASS_TEXT
                                         InputType/TYPE_TEXT_VARIATION_PASSWORD)
-                    :hint "再次输入密码")]]
+                    :hint "再次密码输入")]]
      [:linear-layout {:layout-width :fill
                       :layout-margin-top [10 :dp]
                       :layout-margin-left [20 :dp]
@@ -231,7 +240,7 @@
                             landscape? (assoc :layout-center-vertical true)
                             (not landscape?) (assoc :layout-center-horizontal true))
      [:text-view {:id ::welcome-tv
-                  :text "Welcome to 4Clojure*!"
+                  :text "Welcome to 4Clojure!"
                   :text-size [22 :sp]}]
      [:image-view {:image R$drawable/foreclj_logo
                    :layout-height (if landscape? [250 :dp] [320 :dp])}]
