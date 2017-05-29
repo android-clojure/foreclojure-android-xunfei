@@ -13,7 +13,8 @@
             [org.bytopia.foreclojure
              [db :as db]
              [api :as api]
-             [utils :refer [long-running-job initialize-xunfei str-to-voice mSynListener]]])
+             [utils :refer [long-running-job initialize-xunfei str-to-voice mSynListener
+                            mlistener start-listening]]])
   (:import [android.app ProgressDialog Activity]
            android.content.res.Configuration
            android.text.Html
