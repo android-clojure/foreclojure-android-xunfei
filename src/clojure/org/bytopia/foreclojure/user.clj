@@ -156,14 +156,6 @@
                               "Register" "No account?"))
     (ui/config signup-layout :visibility (if signup-active?
                                            :visible :gone))))
-(defn test-refresh-ui
-  "手动渲染当前页的UI"
-  []
-  (let [this (*a)
-        landscape? (= (ui/get-screen-orientation) :landscape)]
-    (on-ui
-     (set-content-view! this (activity-ui landscape?))
-     (refresh-ui this))))
 
 ;; 修改界面之后,必须切换页面然后切换回来,才能看到修改的效果 => 手动渲染ui =>
 ;; (test-refresh-ui)
@@ -253,6 +245,15 @@
     (login-form (if landscape?
                   :layout-to-right-of
                   :layout-below))]])
+
+(defn test-refresh-ui
+  "手动渲染当前页的UI"
+  []
+  (let [this (*a)
+        landscape? (= (ui/get-screen-orientation) :landscape)]
+    (on-ui
+     (set-content-view! this (activity-ui landscape?))
+     (refresh-ui this))))
 
 (defactivity org.bytopia.foreclojure.LoginActivity
   :key :user
