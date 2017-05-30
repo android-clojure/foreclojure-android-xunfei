@@ -43,7 +43,7 @@
 ;; context => 当前页面所在位置: (*a :main)
 ;;  => #object[org.bytopia.foreclojure.ProblemGridActivity 0x1cf5d25f "org.bytopia.foreclojure.ProblemGridActivity@1cf5d25f"]
 
-(def appid (str SpeechConstant/APPID "=59268e45"))
+(def appid (str SpeechConstant/APPID "=5763509a"))
 
 ;; (initialize-xunfei (*a :main))
 ;; 初始化即创建语音配置对象，只有初始化后才可以使用MSC的各项服务。建议将初始化放在程序入口处（如Application、Activity的onCreate方法）
@@ -98,13 +98,15 @@
       (neko.log/d "开始说话" 2222222)
       )
     (onError [^SpeechError error]
+      (.getPlainDescription error true)
       (neko.log/d "识别错误33333333:" error)
       )
     (onEvent [^Integer arg0 ^Integer arg1 ^Integer arg2 ^Bundle arg3]
-      (neko.log/d "事件arg0~3: 5555555" (str arg0 "======" arg1 "======" arg2 "========" arg3))
+      (neko.log/d "事件ARG0~3: 5555555" (str arg0 "======" arg1 "======" arg2 "========" arg3))
       )
     (onResult [^RecognizerResult results ^Boolean isLast]
       (neko.log/d "返回识别结果: 6666666" (str results "##############" isLast))
+      (neko.log/d "识别结果数据:" (.getResultString results))
       (reset! reco-result (.getResultString results))
       )
     )
@@ -117,17 +119,22 @@
     (onInit [^Integer code])
     ))
 
-;; (initialize-xunfei (*a :main))
-;; (try (start-listening (*a :main) (mlistener)) (catch Exception e (prn e)))
+;; (initialize-xunfei (*a))
+;; (try (start-listening (*a) (mlistener)) (catch Exception e (prn e)))
 (defn start-listening
   [context mlistener]
   (let [mIat (SpeechRecognizer/createRecognizer context (mInitListener))
-        _ (.setParameter mIat SpeechConstant/PARAMS nil)
+        _ (.setParameter mIat SpeechConstant/CLOUD_GRAMMAR nil)
+        _ (.setParameter mIat SpeechConstant/SUBJECT nil)
         _ (.setParameter mIat SpeechConstant/ENGINE_TYPE SpeechConstant/TYPE_CLOUD)
-        _ (.setParameter mIat SpeechConstant/RESULT_TYPE "json")
+        ;; 没有用本地的呀: SpeechConstant/TYPE_LOCAL
+        _ (.setParameter mIat SpeechConstant/ENGINE_MODE SpeechConstant/MODE_MSC)
+        _ (.setParameter mIat SpeechConstant/DOMAIN "iat")
         _ (.setParameter mIat SpeechConstant/LANGUAGE "zh_cn")
-        _ (.setParameter mIat SpeechConstant/AUDIO_FORMAT "wav")
-        _ (.setParameter mIat SpeechConstant/ASR_AUDIO_PATH (str (Environment/getExternalStorageDirectory)  "/msc/iat.wav"))]
+        _ (.setParameter mIat SpeechConstant/ACCENT "mandarin")
+        _ (.setParameter mIat SpeechConstant/NET_CHECK "false")
+        ]
+    (neko.log/d "开始监听" mIat)
     (.startListening mIat mlistener)
     )
   )

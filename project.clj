@@ -51,6 +51,7 @@
                              "cljs-tooling.complete" "cljs-tooling.info"
                              "cljs-tooling.util.analysis" "cljs-tooling.util.misc"
                              "cider.nrepl" "cider-nrepl.plugin"]
-            :external-classes-paths ["lib/Msc.jar"]
+            :external-classes-paths ["lib/Msc.jar"
+                                     "lib/Sunflower.jar"]
             :native-libraries-paths ["lib/"]
             })

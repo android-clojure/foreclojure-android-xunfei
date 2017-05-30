@@ -206,7 +206,6 @@
               :text "点击录音"
               :on-click (fn [w]
                           (on-ui (toast (str "录音开始" w)))
-                          (initialize-xunfei(.getContext w))
                           (start-listening (.getContext w) (mlistener))
                           ) ) ]
       [:button (assoc basis
@@ -271,6 +270,10 @@
   (onCreate [this bundle]
     (.superOnCreate this bundle)
     (neko.debug/keep-screen-on this)
+    (do
+      (neko.log/d "onCreate初始化讯飞语音,每次只要初始化一次")
+      (initialize-xunfei this)
+      )
     (.. this (getWindow) (setSoftInputMode WindowManager$LayoutParams/SOFT_INPUT_STATE_HIDDEN))
     (let [;; this (*a)
           landscape? (= (ui/get-screen-orientation) :landscape)]
