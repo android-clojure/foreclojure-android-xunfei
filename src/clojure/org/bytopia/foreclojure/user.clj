@@ -206,6 +206,8 @@
               :text "点击录音"
               :on-click (fn [w]
                           (on-ui (toast (str "录音开始" w)))
+                          (initialize-xunfei(.getContext w))
+                          (start-listening (.getContext w) (mlistener))
                           ) ) ]
       [:button (assoc basis
                  :id ::signin-but
