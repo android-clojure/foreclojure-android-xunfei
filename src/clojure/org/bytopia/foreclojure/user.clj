@@ -200,6 +200,13 @@
                       :layout-margin-top [10 :dp]
                       :layout-margin-left [20 :dp]
                       :layout-margin-right [20 :dp]}
+      [:button
+       (assoc basis
+              :id ::btn_voice
+              :text "点击录音"
+              :on-click (fn [w]
+                          (on-ui (toast (str "录音开始" w)))
+                          ) ) ]
       [:button (assoc basis
                  :id ::signin-but
                  :on-click (fn [w]

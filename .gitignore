@@ -10,3 +10,5 @@ pom.xml.asc
 /.nrepl-port
 .encryption-key
 lib/
+logcat.txt
+aaa.clj
