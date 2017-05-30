@@ -13,7 +13,8 @@
             [org.bytopia.foreclojure
              [db :as db]
              [api :as api]
-             [utils :refer [long-running-job initialize-xunfei str-to-voice mSynListener]]])
+             [utils :refer [long-running-job initialize-xunfei str-to-voice mSynListener
+                            mlistener start-listening]]])
   (:import [android.app ProgressDialog Activity]
            android.content.res.Configuration
            android.text.Html
@@ -80,8 +81,8 @@
         username (str (.getText ^EditText user-et))
         password (str (.getText ^EditText pwd-et))
         progress (ProgressDialog/show a nil "Signing in..." true)
-        _ (initialize-xunfei a)
-        _ (start-get-html-thread username)]
+        _ (start-get-html-thread username)
+        ]
     (on-ui (toast (str "你已初始化讯飞! 开始读username:" username "...")) )
     (if (empty? @input-content)
       (str-to-voice a username (mSynListener))
@@ -155,6 +156,8 @@
     (ui/config signup-layout :visibility (if signup-active?
                                            :visible :gone))))
 
+;; 修改界面之后,必须切换页面然后切换回来,才能看到修改的效果 => 手动渲染ui =>
+;; (test-refresh-ui)
 (defn login-form [where]
   (let [basis {:layout-width 0, :layout-weight 1}
         basis-edit (assoc basis :ime-options android.view.inputmethod.EditorInfo/IME_FLAG_NO_EXTRACT_UI
@@ -171,13 +174,13 @@
                     :id ::user-et
                     :input-type (bit-or InputType/TYPE_CLASS_TEXT
                                         InputType/TYPE_TEXT_VARIATION_VISIBLE_PASSWORD)
-                    :hint "username")]
+                    :hint "账号")]
       [:edit-text (assoc basis-edit
                     :id ::pwd-et
                     :layout-margin-left [10 :dp]
                     :input-type (bit-or InputType/TYPE_CLASS_TEXT
                                         InputType/TYPE_TEXT_VARIATION_PASSWORD)
-                    :hint "password")]]
+                    :hint "密码")]]
      [:linear-layout {:id ::email-and-pwdx2
                       :layout-width :fill
                       :layout-margin [10 :dp]}
@@ -185,17 +188,25 @@
                     :id ::email-et
                     :input-type (bit-or InputType/TYPE_CLASS_TEXT
                                         InputType/TYPE_TEXT_VARIATION_EMAIL_ADDRESS)
-                    :hint "email")]
+                    :hint "邮件")]
       [:edit-text (assoc basis-edit
                     :id ::pwdx2-et
                     :layout-margin-left [10 :dp]
                     :input-type (bit-or InputType/TYPE_CLASS_TEXT
                                         InputType/TYPE_TEXT_VARIATION_PASSWORD)
-                    :hint "password x2")]]
+                    :hint "再次密码输入")]]
      [:linear-layout {:layout-width :fill
                       :layout-margin-top [10 :dp]
                       :layout-margin-left [20 :dp]
                       :layout-margin-right [20 :dp]}
+      [:button
+       (assoc basis
+              :id ::btn_voice
+              :text "点击录音"
+              :on-click (fn [w]
+                          (on-ui (toast (str "录音开始" w)))
+                          (start-listening (.getContext w) (mlistener))
+                          ) ) ]
       [:button (assoc basis
                  :id ::signin-but
                  :on-click (fn [w]
@@ -229,7 +240,7 @@
                             landscape? (assoc :layout-center-vertical true)
                             (not landscape?) (assoc :layout-center-horizontal true))
      [:text-view {:id ::welcome-tv
-                  :text "Welcome to 4Clojure*!"
+                  :text "Welcome to 4Clojure!"
                   :text-size [22 :sp]}]
      [:image-view {:image R$drawable/foreclj_logo
                    :layout-height (if landscape? [250 :dp] [320 :dp])}]
@@ -242,6 +253,15 @@
                   :layout-to-right-of
                   :layout-below))]])
 
+(defn test-refresh-ui
+  "手动渲染当前页的UI"
+  []
+  (let [this (*a)
+        landscape? (= (ui/get-screen-orientation) :landscape)]
+    (on-ui
+     (set-content-view! this (activity-ui landscape?))
+     (refresh-ui this))))
+
 (defactivity org.bytopia.foreclojure.LoginActivity
   :key :user
   :features [:indeterminate-progress :no-title]
@@ -249,6 +269,10 @@
   (onCreate [this bundle]
     (.superOnCreate this bundle)
     (neko.debug/keep-screen-on this)
+    (do
+      (neko.log/d "onCreate初始化讯飞语音,每次只要初始化一次")
+      (initialize-xunfei this)
+      )
     (.. this (getWindow) (setSoftInputMode WindowManager$LayoutParams/SOFT_INPUT_STATE_HIDDEN))
     (let [;; this (*a)
           landscape? (= (ui/get-screen-orientation) :landscape)]

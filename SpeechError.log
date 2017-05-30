@@ -1,0 +1,101 @@
+W/ResourceType( 1892): No known package when getting name for resource number 0x3ac01027
+W/AudioTrack(  651): AUDIO_OUTPUT_FLAG_FAST denied by client
+D/MscSpeechLog( 1892): start engine mode = MSC
+D/MscSpeechLog( 1892): DC create enter.
+D/MscSpeechLog( 1892): DC resetAllValues enter.
+D/MscSpeechLog( 1892): DC resetAllValues leave.
+D/MscSpeechLog( 1892): DC create leave.
+D/MscSpeechLog( 1892): mSpeechTimeOut=60000
+I/MediaFocusControl(  651):  AudioFocus  requestAudioFocus() from android.media.AudioManager@afba815 req=2flags=0x0
+D/MscSpeechLog( 1892): startListening called
+D/MscSpeechLog( 1892): curStatus=init,setStatus=start
+D/MscSpeechLog( 1892): setStatus success=start
+D/MscSpeechLog( 1892): start connecting
+D/MscSpeechLog( 1892): start  record
+D/MscSpeechLog( 1892): onBeginOfSpeech
+D/org.bytopia.foreclojure.utils( 1892): 开始说话 2222222
+I/AudioFlinger(  399): AudioFlinger's thread 0xf5dac000 ready to run
+D/MscSpeechLog( 1892):
+D/MscSpeechLog( 1892): SampleRate:16000
+D/MscSpeechLog( 1892): Channel:2
+D/MscSpeechLog( 1892): Format:2
+D/MscSpeechLog( 1892): FramePeriod:640
+D/MscSpeechLog( 1892): BufferSize:5120
+D/MscSpeechLog( 1892): MinBufferSize:1536
+D/MscSpeechLog( 1892): ActualBufferSize:1280
+D/MscSpeechLog( 1892): QISRSessionBegin begin, grammar: null
+D/MSC_LOG ( 1892): QISRSessionBegin Begin
+D/MSC_LOG ( 1892): QISRSessionBegin End
+D/MscSpeechLog( 1892): QISRSessionBegin end: 0 time:10
+D/MSC_LOG ( 1892): QISRRegisterNotify Begin
+D/MSC_LOG ( 1892): QISRRegisterNotify Findclass
+D/MSC_LOG ( 1892): QISRRegisterNotify GetstaticMethodID
+D/MSC_LOG ( 1892): QISRRegisterNotify Get sessionID
+D/MSC_LOG ( 1892): QISRRegisterNotify start call
+D/MSC_LOG ( 1892): QISRRegisterNotify End
+D/MscSpeechLog( 1892): curStatus=start,setStatus=recording
+D/MscSpeechLog( 1892): setStatus success=recording
+D/MSC_LOG ( 1892): JNI_IsrStatusCB
+D/MSC_LOG ( 1892): JNI_IsrStatusCB AttachCurrentThread
+D/MSC_LOG ( 1892): JNI_IsrStatusCB get sessionID chararray
+D/MSC_LOG ( 1892): JNI_IsrStatusCB get param2 bytearray
+D/MSC_LOG ( 1892): JNI_IsrStatusCB CallVoidMethod
+D/MSC_LOG ( 1892): JNI_IsrStatusCB DetachCurrentThread
+D/org.bytopia.foreclojure.utils( 1892): 事件arg0~3: 5555555 22002======0======0========
+D/org.bytopia.foreclojure.utils( 1892): 当前正在说话，音量大小:  0
+D/org.bytopia.foreclojure.utils( 1892): 返回音频数据:  #object[[B 0x1a6d084d [B@1a6d084d]
+D/org.bytopia.foreclojure.utils( 1892): 当前正在说话，音量大小:  0
+D/org.bytopia.foreclojure.utils( 1892): 返回音频数据:  #object[[B 0x31822f02 [B@31822f02]
+D/org.bytopia.foreclojure.utils( 1892): 当前正在说话，音量大小:  27
+D/org.bytopia.foreclojure.utils( 1892): 返回音频数据:  #object[[B 0x1c4cd013 [B@1c4cd013]
+D/org.bytopia.foreclojure.utils( 1892): 当前正在说话，音量大小:  28
+D/org.bytopia.foreclojure.utils( 1892): 返回音频数据:  #object[[B 0x35cc9250 [B@35cc9250]
+D/org.bytopia.foreclojure.utils( 1892): 当前正在说话，音量大小:  28
+D/org.bytopia.foreclojure.utils( 1892): 返回音频数据:  #object[[B 0x368edc49 [B@368edc49]
+D/org.bytopia.foreclojure.utils( 1892): 当前正在说话，音量大小:  24
+D/org.bytopia.foreclojure.utils( 1892): 返回音频数据:  #object[[B 0x2b68394e [B@2b68394e]
+D/MSC_LOG ( 1892): JNI_IsrErrorCB
+D/MSC_LOG ( 1892): JNI_IsrErrorCB AttachCurrentThread
+D/MSC_LOG ( 1892): JNI_IsrErrorCB get sessionID chararray
+D/MSC_LOG ( 1892): JNI_IsrErrorCB get detail chararray
+D/MSC_LOG ( 1892): JNI_IsrErrorCB CallVoidMethod
+D/MscSpeechLog( 1892): clear all message
+D/MscSpeechLog( 1892): DC getEnable enter.
+D/MscSpeechLog( 1892): DC getEnable static value=true
+D/MscSpeechLog( 1892): getMscParameter enter key=idc
+D/MscSpeechLog( 1892): getMscParameter value=ch
+D/MscSpeechLog( 1892): getMscParameter leave
+D/MscSpeechLog( 1892): DC getEnable msc val=ch
+D/MscSpeechLog( 1892): DC getEnable value=false
+D/MscSpeechLog( 1892): DC getEnable leave.
+D/MscSpeechLog( 1892): curStatus=recording,setStatus=exiting
+D/MscSpeechLog( 1892): setStatus success=exiting
+D/MSC_LOG ( 1892): JNI_IsrErrorCB DetachCurrentThread
+D/MscSpeechLog( 1892): onSessionEnd
+D/MscSpeechLog( 1892): stop record
+D/org.bytopia.foreclojure.utils( 1892): 事件arg0~3: 5555555 22003======0======0========
+D/MSC_LOG ( 1892): QISRSetParam Begin
+D/MSC_LOG ( 1892): QISRSetParam End
+D/MscSpeechLog( 1892): sessionEnd enter
+D/MSC_LOG ( 1892): QISRSessionEnd Begin
+D/MSC_LOG ( 1892): QISRSessionEnd End
+D/MSC_LOG ( 1892): DeleteGlobalRef g_isrCbData.m_obj
+D/MscSpeechLog( 1892): sessionEnd leavel:true time:3
+D/MscSpeechLog( 1892): curStatus=exiting,setStatus=exited
+D/MscSpeechLog( 1892): setStatus success=exited
+D/MscSpeechLog( 1892): clear all message
+D/MscSpeechLog( 1892): RecognizerListener#onEnd
+D/org.bytopia.foreclojure.utils( 1892): 事件arg0~3: 5555555 20001======0======0========Bundle[{session_id=null}]
+D/MscSpeechLog( 1892): release record begin
+D/MscSpeechLog( 1892): release record over
+I/MediaFocusControl(  651):  AudioFocus  abandonAudioFocus() from android.media.AudioManager@afba815
+D/MscSpeechLog( 1892): clear all message
+D/MscSpeechLog( 1892): quit current Msc Handler thread
+D/org.bytopia.foreclojure.utils( 1892): 识别错误33333333: #error {
+D/org.bytopia.foreclojure.utils( 1892):  :cause nil
+D/org.bytopia.foreclojure.utils( 1892):  :via
+D/org.bytopia.foreclojure.utils( 1892):  [{:type com.iflytek.cloud.SpeechError
+D/org.bytopia.foreclojure.utils( 1892):    :message nil
+D/org.bytopia.foreclojure.utils( 1892):    :at [com.iflytek.cloud.thirdparty.l errCb nil -1]}]
+D/org.bytopia.foreclojure.utils( 1892):  :trace
+D/org.bytopia.foreclojure.utils( 1892):  [[com.iflytek.cloud.thirdparty.l errCb nil -1]]}
