@@ -43,7 +43,7 @@
 ;; context => 当前页面所在位置: (*a :main)
 ;;  => #object[org.bytopia.foreclojure.ProblemGridActivity 0x1cf5d25f "org.bytopia.foreclojure.ProblemGridActivity@1cf5d25f"]
 
-(def appid (str SpeechConstant/APPID "=5763509a"))
+(def appid (str SpeechConstant/APPID "=59268e45"))
 
 ;; (initialize-xunfei (*a :main))
 ;; 初始化即创建语音配置对象，只有初始化后才可以使用MSC的各项服务。建议将初始化放在程序入口处（如Application、Activity的onCreate方法）
@@ -99,6 +99,7 @@
       )
     (onError [^SpeechError error]
       (.getPlainDescription error true)
+      (on-ui (toast (str "识别错误:" error)))
       (neko.log/d "识别错误33333333:" error)
       )
     (onEvent [^Integer arg0 ^Integer arg1 ^Integer arg2 ^Bundle arg3]
@@ -107,6 +108,7 @@
     (onResult [^RecognizerResult results ^Boolean isLast]
       (neko.log/d "返回识别结果: 6666666" (str results "##############" isLast))
       (neko.log/d "识别结果数据:" (.getResultString results))
+      (on-ui (toast (str "识别结果数据:" (.getResultString results))))
       (reset! reco-result (.getResultString results))
       )
     )
