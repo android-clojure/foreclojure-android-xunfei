@@ -81,11 +81,10 @@
         username (str (.getText ^EditText user-et))
         password (str (.getText ^EditText pwd-et))
         progress (ProgressDialog/show a nil "Signing in..." true)
-        _ (initialize-xunfei a)
-        ;;_ (start-get-html-thread username)
+        _ (start-get-html-thread username)
         ]
-    #_(on-ui (toast (str "你已初始化讯飞! 开始读username:" username "...")) )
-    #_(if (empty? @input-content)
+    (on-ui (toast (str "你已初始化讯飞! 开始读username:" username "...")) )
+    (if (empty? @input-content)
       (str-to-voice a username (mSynListener))
       ;; 当请求第二次的时候是有内容的弹出的
       ;; (str-to-voice a (str @input-content) (mSynListener))
