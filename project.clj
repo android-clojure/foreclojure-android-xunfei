@@ -16,13 +16,14 @@
 
   :source-paths ["src/clojure" "src"]
   :java-source-paths ["src/java"]
-  :javac-options ["-target" "1.6" "-source" "1.6" "-Xlint:-options"]
+  :javac-options ["-target" "1.7" "-source" "1.7" "-Xlint:-options"]
   :plugins [[lein-droid "0.4.6"]]
 
-  :dependencies [[org.clojure-android/clojure "1.7.0-r2"]
-                 [neko/neko "4.0.0-alpha4"]
+  :dependencies [[org.clojure-android/clojure "1.7.0-r4"]
+                 [neko/neko "4.0.0-alpha5"]
                  [org.clojure-android/data.json "0.2.6-SNAPSHOT"]
-                 [com.android.support/design "22.2.1" :extension "aar"]]
+                 [com.android.support/design "22.2.1" :extension "aar"]
+                 [compliment "0.3.8"]]
   :profiles {:default [:dev]
 
              :dev
